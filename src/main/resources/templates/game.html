@@ -8,16 +8,75 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:inline="javascript">
 
-        let subscribe = "/topic/" + [[${raceId}]];
-        let send = "/app/" + [[${raceId}]];
-
-        const quoteDisplayElement = document.getElementById('text');
-        const quoteInputElement = document.getElementById('textinput');
-
         var stompClient = null;
+        var subscribe = "/topic/" + [[${raceId}]];
+        var send = "/app/" + [[${raceId}]];
+        var startTime
+        var startedTyping = false
+        var correctCharacters = 0
+        //var quoteDisplayElement = document.getElementById('text')
+        //var quoteInputElement = document.getElementById('textinput')
+
+        connect()
+        renderNewQuote()
+
+        $(document).ready(function(){
+            document.getElementById('textinput').addEventListener('input', () => {
+                const arrayQuote = document.getElementById('text').querySelectorAll('span')
+                const arrayValue = document.getElementById('textinput').value.split('')
+
+                let correct = true
+                correctCharacters = 0
+                arrayQuote.forEach((characterSpan, index) => {
+                    if(startedTyping === false){
+                        console.log("haha")
+                        startSpeedCount()
+                    }
+                    startedTyping = true
+                    const character = arrayValue[index]
+                    if(character == null){
+                        characterSpan.classList.remove('correct');
+                        characterSpan.classList.remove('incorrect');
+                        correct = false
+                    } else if(characterSpan.innerText === ''){
+                        if(character === ' '){
+                            characterSpan.classList.add('correct');
+                            characterSpan.classList.remove('incorrect');
+                        } else {
+                            characterSpan.classList.add('incorrect');
+                            characterSpan.classList.remove('correct');
+                            correct = false;
+                        }
+                    } else if (character === characterSpan.innerText) {
+                        correctCharacters++
+                        characterSpan.classList.add('correct');
+                        characterSpan.classList.remove('incorrect');
+                    } else {
+                        characterSpan.classList.add('incorrect');
+                        characterSpan.classList.remove('correct');
+                        correct = false
+                    }
+                })
+                if (correct) {
+                    renderNewQuote();
+                }
+            })
+        })
+
+
+        function startSpeedCount(){
+            startTime = new Date()
+            setInterval(() => {
+                speed = document.getElementById('speed').innerText = Math.floor((correctCharacters/5) / (getTimerTime()/60))
+            }, 1000)
+        }
+
+        function getTimerTime() {
+            return Math.floor((new Date() - startTime) / 1000);
+        }
 
         function connect() {
-            var socket = new SockJS('/ws');
+            const socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function () {
                 stompClient.subscribe(subscribe, function (raceState) {
@@ -27,8 +86,47 @@
         }
 
         function showGreeting(name){
-            $("#greetings").append("<tr><td>" + name + " has joined the server!</td></tr>");
+            console.log(name + " joined server!")
+
+            const player  = document.createElement('div')
+            const carImg = document.createElement('img')
+            const nameSpan = document.createElement('span')
+            const speedSpan = document.createElement('span')
+
+            player.classList.add('player');
+
+            carImg.src = './red-car.png'
+            carImg.classList.add('car')
+
+            nameSpan.innerText = name
+            speedSpan.innerText = ''
+
+            player.appendChild(carImg)
+            player.appendChild(nameSpan)
+            player.appendChild(speedSpan)
+
+            document.getElementById('raceStatus').append(player)
         }
+
+        function getQuote() {
+            return fetch('http://api.quotable.io/random')
+                .then(response => response.json())
+                .then(data => data.content)
+        }
+
+        async function renderNewQuote() {
+            let quote = await getQuote();
+            //quote = 'Hello motherfuckers'
+            document.getElementById('text').innerHTML = '';
+            quote.split('').forEach(character => {
+                const characterSpan = document.createElement('span')
+                characterSpan.innerText = character
+                document.getElementById('text').appendChild(characterSpan)
+            })
+            startedTyping = false
+            document.getElementById('textinput').value = null;
+        }
+
 
         function joinGame(){
             document.getElementById('joingame').remove();
@@ -38,102 +136,8 @@
             stompClient.send(send , {}, userState);
         }
 
-        function getQuote() {
-            return fetch('http://api.quotable.io/random')
-            .then(response => response.json())
-            .then(data => data.content)
-        }
-
-        async function renderNewQuote() {
-            let quote = await getQuote();
-            quoteDisplayElement.innerText = quote;
-            quoteInputElement.value = null;
-        }
-
-        $(document).ready(function () {
-            connect();
-            renderNewQuote();
-        })
-
-
     </script>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        #text {
-            margin-top: 10vh;
-            text-align: center;
-            font-size: 35px;
-        }
-
-        textarea {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #2c3e50;
-        }
-
-        #text {
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            margin-left: calc(1rem - 2px);
-            margin-right: calc(1rem + 2px);
-        }
-
-        .container {
-            background-color: #ffa801;
-            padding: 1rem;
-            border-radius: .5rem;
-            width: 700px;
-            max-width: 90%;
-        }
-
-        #speed {
-            position: absolute;
-            top: 2rem;
-            font-size: 3rem;
-            color: #ffa801;
-            font-weight: bold;
-        }
-
-        .connect {
-            color: white;
-        }
-
-        #textinput {
-            background-color: transparent;
-            border: 2px solid #A1922E;
-            outline: none;
-            width: 100%;
-            height: 8rem;
-            margin: auto;
-            resize: none;
-            border-radius: .5rem;
-            padding: .5rem 1rem;
-            font-size: 1rem;
-        }
-
-        #textinput:focus {
-            border-color: black;
-        }
-
-
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/game.css}">
 
 </head>
 <body>
@@ -151,15 +155,19 @@
     </div>
 
     <div id="speed">
-        0
+
+    </div>
+
+    <div class="race-status" id="raceStatus">
+
     </div>
 
     <div class="container">
         <div id="text">
-            fefe
+
         </div>
 
-        <textarea id="textinput" cols="30" rows="10" autofocus>text wws</textarea>
+        <textarea id="textinput" cols="30" rows="10" autofocus></textarea>
     </div>
 
 </body>

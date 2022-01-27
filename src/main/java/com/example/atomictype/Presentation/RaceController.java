@@ -31,6 +31,8 @@ public class RaceController {
         return null;
     }
 
+
+
     @GetMapping("/race/{raceId}")
     public String joinRace(Model model, @PathVariable Long raceId){
         model.addAttribute("raceLink", "http://localhost:8080/race/" + raceId);
