@@ -86,6 +86,11 @@ body {
     flex-direction: column;
 }
 
+.speed {
+    font-size: 30px;
+    margin-left: 2rem;
+}
+
 .player{
 
 }

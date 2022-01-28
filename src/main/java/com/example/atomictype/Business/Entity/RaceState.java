@@ -1,14 +1,16 @@
 package com.example.atomictype.Business.Entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RaceState {
     private String method;
     private long gameId;
-    private ArrayList<UserState> players;
-    private String lastPlayer;
+    private List<UserState> players = new ArrayList<>();
+    private UserState lastPlayer;
 
-    public RaceState(String method, long gameId, ArrayList<UserState> players, String lastPlayer) {
+    public RaceState(String method, long gameId, ArrayList<UserState> players, UserState lastPlayer) {
         this.method = method;
         this.gameId = gameId;
         this.players = players;
@@ -34,7 +36,7 @@ public class RaceState {
         this.gameId = gameId;
     }
 
-    public ArrayList<UserState> getPlayers() {
+    public List<UserState> getPlayers() {
         return players;
     }
 
@@ -42,11 +44,15 @@ public class RaceState {
         this.players = players;
     }
 
-    public String getLastPlayer() {
+    public void addPlayer(UserState userState){
+        players.add(userState);
+    }
+
+    public UserState getLastPlayer() {
         return lastPlayer;
     }
 
-    public void setLastPlayer(String lastPlayer) {
+    public void setLastPlayer(UserState lastPlayer) {
         this.lastPlayer = lastPlayer;
     }
 }
