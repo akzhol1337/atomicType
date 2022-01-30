@@ -151,7 +151,7 @@
         }
 
         function getQuote() {
-            return fetch('http://api.quotable.io/random')
+            return fetch('http://localhost:8080/api/randomquote')
                 .then(response => response.json())
                 .then(data => data.content)
         }
