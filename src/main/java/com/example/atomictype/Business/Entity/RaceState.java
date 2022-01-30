@@ -7,14 +7,25 @@ import java.util.List;
 public class RaceState {
     private String method;
     private long gameId;
+    private long quoteId;
     private List<UserState> players = new ArrayList<>();
     private UserState lastPlayer;
 
-    public RaceState(String method, long gameId, ArrayList<UserState> players, UserState lastPlayer) {
+    public RaceState(String method, long gameId, long quoteId, List<UserState> players, UserState lastPlayer) {
         this.method = method;
         this.gameId = gameId;
+        this.quoteId = quoteId;
         this.players = players;
         this.lastPlayer = lastPlayer;
+    }
+
+    public long getQuoteId() {
+        return quoteId;
+    }
+
+
+    public void setQuoteId(long quoteId) {
+        this.quoteId = quoteId;
     }
 
     public RaceState() {

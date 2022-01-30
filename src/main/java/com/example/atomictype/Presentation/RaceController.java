@@ -38,13 +38,15 @@ public class RaceController {
     @GetMapping("/race/{raceId}")
     public String joinRace(Model model, @PathVariable Long raceId){
         model.addAttribute("raceLink", "http://localhost:8080/race/" + raceId);
+        model.addAttribute("quoteId", raceService.getQuoteId(raceId));
         return "game";
     }
 
-    @PostMapping("/createRace/{raceId}")
+    @PostMapping("/createRace/{raceId}/{quoteId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void createRace(@PathVariable Long raceId){
-        RaceState raceState = new RaceState("CREATE", raceId, new ArrayList<UserState>(), null);
+    public void createRace(@PathVariable Long raceId, @PathVariable Long quoteId){
+        RaceState raceState = new RaceState("CREATE", raceId, quoteId, new ArrayList<UserState>(), null);
+        System.out.println(raceState.getGameId() + " | " + raceState.getQuoteId());
         raceService.createRace(raceState);
     }
 

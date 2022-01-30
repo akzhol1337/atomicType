@@ -31,6 +31,11 @@ public class RaceStateService {
         return raceStateMap.put(raceState.getGameId(), raceState);
     }
 
+    public Long getQuoteId(Long raceId){
+        System.out.println("raceId: " + raceId);
+        return raceStateMap.get(raceId).getQuoteId();
+    }
+
     public RaceState addPlayer(UserState userState){
         RaceState raceState = raceStateMap.get(userState.getRaceId());
         raceState.addPlayer(userState);

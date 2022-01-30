@@ -23,4 +23,12 @@ public class QuoteService {
         Long quoteId = random.nextLong(0, numberOfQuotesInDatabase-1);
         return repo.findById(quoteId).orElse(null);
     }
+
+    public Quote getQuoteById(Long id){
+        return repo.findById(id).orElse(null);
+    }
+
+    public Long getRandomQuoteId(){
+        return random.nextLong(0, numberOfQuotesInDatabase-1);
+    }
 }

@@ -10,6 +10,7 @@
 
         var stompClient = null
         var raceId = [[${raceId}]]
+        var quoteId = [[${quoteId}]]
         var subscribe = "/topic/" + [[${raceId}]]
         var join = "/app/join/" + [[${raceId}]]
         var play = "/app/play/" + [[${raceId}]]
@@ -151,7 +152,7 @@
         }
 
         function getQuote() {
-            return fetch('http://localhost:8080/api/randomquote')
+            return fetch('http://localhost:8080/api/quote/' + quoteId)
                 .then(response => response.json())
                 .then(data => data.content)
         }

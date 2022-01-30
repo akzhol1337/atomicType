@@ -31,4 +31,14 @@ public class RestController {
     public Quote getRandomQuote(){
         return quoteService.getRandomQuote();
     }
+
+    @GetMapping("/api/quote/{quoteId}")
+    public Quote getQuoteById(@PathVariable Long quoteId){
+        return quoteService.getQuoteById(quoteId);
+    }
+
+    @GetMapping("/api/randomquoteid")
+    public Long getRandomQuoteId(){
+        return quoteService.getRandomQuoteId();
+    }
 }
