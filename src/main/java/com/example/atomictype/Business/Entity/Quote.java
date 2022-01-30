@@ -13,7 +13,7 @@ public class Quote {
     @Column(columnDefinition = "text")
     private String content;
     private String author;
-    //Base64
+    //Link to image hosting
     private String cover;
 
     public Quote(Long id, String title, String content, String author, String cover) {

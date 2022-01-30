@@ -41,6 +41,10 @@ body {
     max-width: 90%;
 }
 
+.place {
+    font-size: 25px;
+}
+
 #speed {
     position: absolute;
     top: 2rem;
@@ -82,7 +86,7 @@ body {
 .race-status {
     background-color: #bdc3c7;
     height: 30vh;
-    width: 90vh;
+    width: 150vh;
     display: flex;
     flex-direction: column;
 }
