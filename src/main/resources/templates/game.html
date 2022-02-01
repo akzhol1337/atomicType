@@ -39,7 +39,6 @@
                 arrayQuote.forEach((characterSpan, index) => {
                     if(startedTyping === false){
                         totalCharacters = arrayQuote.length
-                        //console.log(totalCharacters)
                         startSpeedCount()
                     }
                     startedTyping = true
@@ -68,9 +67,6 @@
                         correct = false
                     }
                 })
-                if (correct) {
-                    displayQuoteInfo()
-                }
             })
 
 
@@ -84,12 +80,18 @@
                 if(finished){
                     clearInterval(calculateSpeed)
                 } else {
-                    speed = document.getElementById('speed').innerText = Math.floor((correctCharacters / 5) / (getTimerTime() / 60))
+                    progress = correctCharacters / totalCharacters * 100
+                    if(progress === 100){
+                        finished = true
+                        displayQuoteInfo()
+                    } else {
+                        speed = document.getElementById('speed').innerText = Math.floor((correctCharacters / 5) / (getTimerTime() / 60))
+                    }
                     playGame()
                 }
 
 
-            }, 1500)
+            }, 2000)
         }
 
         function displayQuoteInfo(){
@@ -124,7 +126,6 @@
                 textAuthor.innerText = data.author
                 textTitle.innerText = data.title
                 textSpeed.innerText = speed
-                //console.log(data.author)
             });
 
 
@@ -157,15 +158,14 @@
 
         function loadUsers(){
             $.get( "http://localhost:8080/loadUsers/" + raceId, function( data ) {
-                //console.log(typeof data + " hoho " + data)
                 data.forEach(element => addPlayer(element));
             })
         }
 
         function updateScoreboard(userState){
             $('#' + userState.userId).children()[2].innerHTML = userState.speed
-            $('#' + userState.userId).css('margin-left', userState.progress*6 + 'px' );
-            console.log(userState.progress)
+            $('#' + userState.userId).css('margin-left', userState.progress*8 + 'px' );
+            console.log(userState.progress + " <- progress speed ->" + userState.speed)
             if (userState.progress === 100){
                 $('#' + userState.userId).children()[3].innerText = (++finishedPlayers).toString() + " Place"
             }
@@ -180,9 +180,6 @@
             const speedSpan = document.createElement('span')
             const placeSpan = document.createElement('span')
 
-            //console.log(userState)
-            //console.log(userState.userId)
-            //$(player).attr('id', (userState.userId).toString());
 
             player.classList.add('player')
             placeSpan.classList.add('place')
@@ -235,14 +232,9 @@
         }
 
         function playGame(){
-            const wpm = speed
             const progress = correctCharacters / totalCharacters * 100
-
-            if(progress === 100){
-                finished = true
-            }
-            console.log(progress + " " + correctCharacters + " " + totalCharacters)
-            const userState = JSON.stringify({"method": "PLAY", "userId": userId, "raceId": raceId, "name": name, 'speed': wpm, 'progress': parseInt(progress)})
+            //console.log(progress + " correct: " + correctCharacters + " total: " + totalCharacters)
+            const userState = JSON.stringify({"method": "PLAY", "userId": userId, "raceId": raceId, "name": name, 'speed': speed, 'progress': parseInt(progress)})
             stompClient.send(play, {}, userState)
 
         }
