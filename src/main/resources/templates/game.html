@@ -69,7 +69,7 @@
                     }
                 })
                 if (correct) {
-                    //renderNewQuote();
+                    displayQuoteInfo()
                 }
             })
 
@@ -80,13 +80,55 @@
 
         function startSpeedCount(){
             startTime = new Date()
-            setInterval(() => {
-                speed = document.getElementById('speed').innerText = Math.floor((correctCharacters/5) / (getTimerTime()/60))
-                if (!finished) {
+            const calculateSpeed = setInterval(() => {
+                if(finished){
+                    clearInterval(calculateSpeed)
+                } else {
+                    speed = document.getElementById('speed').innerText = Math.floor((correctCharacters / 5) / (getTimerTime() / 60))
                     playGame()
                 }
 
-            }, 1000)
+
+            }, 1500)
+        }
+
+        function displayQuoteInfo(){
+            $("#textinput").remove()
+            $("#text").remove()
+
+            const textInfo = document.createElement('div')
+            textInfo.classList.add('textInfo')
+            textInfo.id = 'textInfo'
+
+            const textImage = document.createElement('img')
+            const textSpeed = document.createElement('span')
+            const textAuthor = document.createElement('span')
+            const textTitle = document.createElement('span')
+
+            textImage.id = 'textImage'
+            textAuthor.id = 'textAuthor'
+            textTitle.id = 'textTitle'
+            textSpeed.id = 'totalSpeed'
+
+            textInfo.appendChild(textImage)
+            textInfo.appendChild(textAuthor)
+            textInfo.appendChild(textTitle)
+
+            $('#container').append(textInfo)
+            $('#container').append(textAuthor)
+            $('#container').append(textTitle)
+            $('#container').append(textSpeed)
+
+            $.get( 'http://localhost:8080/api/quote/' + quoteId, function( data ) {
+                textImage.src = data.cover
+                textAuthor.innerText = data.author
+                textTitle.innerText = data.title
+                textSpeed.innerText = speed
+                //console.log(data.author)
+            });
+
+
+
         }
 
         function getTimerTime() {
@@ -154,10 +196,11 @@
             nameSpan.innerText = userState.name
             speedSpan.innerText = userState.speed
 
+
+            player.appendChild(placeSpan)
             player.appendChild(carImg)
             player.appendChild(nameSpan)
             player.appendChild(speedSpan)
-            player.appendChild(placeSpan)
 
             document.getElementById('raceStatus').append(player)
         }
@@ -192,7 +235,7 @@
         }
 
         function playGame(){
-            const wpm = document.getElementById('speed').innerText
+            const wpm = speed
             const progress = correctCharacters / totalCharacters * 100
 
             if(progress === 100){
@@ -231,7 +274,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container" id="container">
         <div id="text">
 
         </div>

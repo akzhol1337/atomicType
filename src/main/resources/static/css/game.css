@@ -42,7 +42,7 @@ body {
 }
 
 .place {
-    font-size: 25px;
+    font-size: 40px;
 }
 
 #speed {
@@ -88,6 +88,35 @@ body {
     height: 30vh;
     width: 150vh;
     display: flex;
+    flex-direction: column;
+}
+
+#textImage {
+    width: 200px;
+    height: 200px;
+}
+
+#textAuthor {
+    font-size: 2.5rem;
+    color: white
+}
+
+#textTitle {
+    font-size: 3.5rem;
+    color: white;
+    font-weight: bold;
+}
+
+#totalSpeed {
+    font-size: 3.5rem;
+    color: white;
+
+    margin-left: 100px;
+}
+
+#textInfo {
+    display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 
