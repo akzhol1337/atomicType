@@ -95,6 +95,7 @@
         }
 
         function displayQuoteInfo(){
+            $('#speed').remove()
             $("#textinput").remove()
             $("#text").remove()
 
@@ -152,8 +153,15 @@
                 addPlayer(raceStateBody.lastPlayer)
             } else if(raceStateBody.method === 'PLAY'){
                 updateScoreboard(raceStateBody.lastPlayer)
+            } else if(raceStateBody.method === 'START'){
+                startRace()
             }
 
+        }
+
+        function startRace(){
+            $('#textinput').removeAttr('disabled')
+            $('#textinput').addClass('input-started')
         }
 
         function loadUsers(){
@@ -192,7 +200,6 @@
 
             nameSpan.innerText = userState.name
             speedSpan.innerText = userState.speed
-
 
             player.appendChild(placeSpan)
             player.appendChild(carImg)
@@ -271,7 +278,7 @@
 
         </div>
 
-        <textarea id="textinput" cols="30" rows="10" autofocus></textarea>
+        <textarea id="textinput" cols="30" rows="10" disabled autofocus></textarea>
     </div>
 
 </body>

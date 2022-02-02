@@ -45,6 +45,10 @@ body {
     font-size: 40px;
 }
 
+.input-started {
+    background-color: #2ecc71 !important;
+}
+
 #speed {
     position: absolute;
     top: 2rem;

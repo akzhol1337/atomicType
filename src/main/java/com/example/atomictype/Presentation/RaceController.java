@@ -3,10 +3,14 @@ package com.example.atomictype.Presentation;
 import com.example.atomictype.Business.Entity.RaceState;
 import com.example.atomictype.Business.Entity.UserState;
 import com.example.atomictype.Business.Service.RaceStateService;
+import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +21,31 @@ import java.util.ArrayList;
 public class RaceController {
 
     RaceStateService raceService;
+    AsyncController asyncController;
 
     @Autowired
-    public RaceController(RaceStateService raceService) {
+    public RaceController(RaceStateService raceService, AsyncController asyncController) {
         this.raceService = raceService;
+        this.asyncController = asyncController;
     }
 
     @MessageMapping("/play/{raceId}")
     @SendTo("/topic/{raceId}")
-    public RaceState playRace(UserState userState){
+    public RaceState playRace(UserState userState) {
         return raceService.updatePlayer(userState);
     }
 
     @MessageMapping("/join/{raceId}")
     @SendTo("/topic/{raceId}")
-    public RaceState joinRace(UserState userState){
-        return raceService.addPlayer(userState);
+    public RaceState joinRace(UserState userState, @DestinationVariable Long raceId) throws InterruptedException {
+
+        RaceState raceState = raceService.addPlayer(userState);
+
+        if (raceState.getPlayers().size() >= 3 && !raceState.isStarted()){
+            asyncController.startRace(raceState, raceId);
+        }
+
+        return raceState;
     }
 
     @GetMapping("/race/{raceId}")
@@ -45,7 +58,7 @@ public class RaceController {
     @PostMapping("/createRace/{raceId}/{quoteId}")
     @ResponseStatus(value = HttpStatus.OK)
     public void createRace(@PathVariable Long raceId, @PathVariable Long quoteId){
-        RaceState raceState = new RaceState("CREATE", raceId, quoteId, new ArrayList<UserState>(), null);
+        RaceState raceState = new RaceState("CREATE", raceId, quoteId, new ArrayList<UserState>(), null, false);
         System.out.println(raceState.getGameId() + " | " + raceState.getQuoteId());
         raceService.createRace(raceState);
     }

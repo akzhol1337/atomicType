@@ -32,7 +32,6 @@ public class RaceStateService {
     }
 
     public Long getQuoteId(Long raceId){
-        System.out.println("raceId: " + raceId);
         return raceStateMap.get(raceId).getQuoteId();
     }
 
@@ -41,6 +40,14 @@ public class RaceStateService {
         raceState.addPlayer(userState);
         raceState.setMethod("JOIN");
         raceState.setLastPlayer(userState);
+        return raceState;
+    }
+
+    public RaceState startRace(Long raceId){
+        RaceState raceState = raceStateMap.get(raceId);
+        raceState.setMethod("START");
+        raceState.setStarted(true);
+        raceState.setLastPlayer(null);
         return raceState;
     }
 
