@@ -41,7 +41,7 @@ public class RaceController {
 
         RaceState raceState = raceService.addPlayer(userState);
 
-        if (raceState.getPlayers().size() >= 3 && !raceState.isStarted()){
+        if (raceState.getPlayers().size() >= 2 && !raceState.isStarted()){
             asyncController.startRace(raceState, raceId);
         }
 

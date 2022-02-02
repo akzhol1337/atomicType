@@ -19,7 +19,6 @@
         var userId
         var finished = false
         var finishedPlayers = 0
-        var startedTyping = false
         var totalCharacters = 0
         var correctCharacters = 0
         //var quoteDisplayElement = document.getElementById('text')
@@ -36,12 +35,9 @@
 
                 let correct = true
                 correctCharacters = 0
+                totalCharacters = arrayQuote.length
+
                 arrayQuote.forEach((characterSpan, index) => {
-                    if(startedTyping === false){
-                        totalCharacters = arrayQuote.length
-                        startSpeedCount()
-                    }
-                    startedTyping = true
                     const character = arrayValue[index]
                     if(character == null){
                         characterSpan.classList.remove('correct');
@@ -162,6 +158,7 @@
         function startRace(){
             $('#textinput').removeAttr('disabled')
             $('#textinput').addClass('input-started')
+            startSpeedCount()
         }
 
         function loadUsers(){
@@ -224,7 +221,6 @@
                 characterSpan.innerText = character
                 document.getElementById('text').appendChild(characterSpan)
             })
-            startedTyping = false
             document.getElementById('textinput').value = null;
         }
 
