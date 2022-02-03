@@ -19,9 +19,11 @@ public class AsyncController {
 
     @Async
     public void startRace(RaceState raceState, Long raceId) throws InterruptedException {
-        Thread.sleep(5000);
-        raceState.setMethod("START");
         raceState.setLastPlayer(null);
-        template.convertAndSend("/topic/" + raceId, raceState);
+        for(int i = 5; i >= 0; i--){
+            Thread.sleep(1000);
+            raceState.setMethod("START" + ((i != 0) ? (" " + i) : ""));
+            template.convertAndSend("/topic/" + raceId, raceState);
+        }
     }
 }

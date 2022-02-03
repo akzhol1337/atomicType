@@ -137,3 +137,34 @@ body {
     width: 4.5rem;
     margin-bottom: -2rem;
 }
+
+#countdown {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 25px;
+    color: white;
+    padding: 15px;
+}
+
+.countdown-waiting {
+    width: 240px;
+    background-color: #e74c3c;
+}
+
+.countdown-red {
+    background-color: #e74c3c;
+}
+
+.countdown-orange {
+    background-color: #f39c12;
+}
+
+.countdown-green {
+    background-color: #2ecc71;
+}
+
+.countdown-started {
+    width: 42px;
+}

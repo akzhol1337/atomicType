@@ -149,16 +149,35 @@
                 addPlayer(raceStateBody.lastPlayer)
             } else if(raceStateBody.method === 'PLAY'){
                 updateScoreboard(raceStateBody.lastPlayer)
-            } else if(raceStateBody.method === 'START'){
-                startRace()
+            } else if(raceStateBody.method.startsWith('START')){
+                startRace(raceStateBody.method)
             }
 
         }
 
-        function startRace(){
-            $('#textinput').removeAttr('disabled')
-            $('#textinput').addClass('input-started')
-            startSpeedCount()
+        function startRace(method){
+            if (method === 'START') {
+                $('#textinput').removeAttr('disabled')
+                $('#textinput').addClass('input-started')
+                startSpeedCount()
+                $('#countdown').remove()
+            } else {
+                //[5 4] [3 2] [1 0]
+                let countdown = method.charAt(6)
+                if(countdown === '5'){
+                    $('#countdown').removeClass('countdown-waiting')
+                    $('#countdown').addClass('countdown-started')
+                    $('#countdown').addClass('countdown-red')
+                }
+                if (countdown === '3'){
+                    $('#countdown').removeClass('countdown-red')
+                    $('#countdown').addClass('countdown-orange')
+                } else if(countdown === '1'){
+                    $('#countdown').removeClass('countdown-orange')
+                    $('#countdown').addClass('countdown-green')
+                }
+                $('#countdown').text(countdown)
+            }
         }
 
         function loadUsers(){
@@ -266,7 +285,7 @@
     </div>
 
     <div class="race-status" id="raceStatus">
-
+        <span id="countdown" class="countdown-waiting">Waiting for players...</span>
     </div>
 
     <div class="container" id="container">
