@@ -1,9 +1,14 @@
 package com.example.atomictype.Business.Entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class RaceState {
     private String method;
     private long gameId;
@@ -12,27 +17,12 @@ public class RaceState {
     private UserState lastPlayer;
     private boolean started;
 
-
-
-    public RaceState(String method, long gameId, long quoteId, List<UserState> players, UserState lastPlayer, boolean started) {
-        this.method = method;
-        this.gameId = gameId;
-        this.quoteId = quoteId;
-        this.players = players;
-        this.lastPlayer = lastPlayer;
-        this.started = started;
-    }
-
     public long getQuoteId() {
         return quoteId;
     }
 
-
     public void setQuoteId(long quoteId) {
         this.quoteId = quoteId;
-    }
-
-    public RaceState() {
     }
 
     public String getMethod() {

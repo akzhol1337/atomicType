@@ -74,6 +74,7 @@ body {
     border: 2px solid #A1922E;
     outline: none;
     width: 100%;
+    opacity: 0;
     height: 8rem;
     margin: auto;
     resize: none;
