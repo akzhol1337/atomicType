@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<section class="loginBox" style="position: center; display: flex; flex-direction: column; align-items: center;">
+    <h1>Please, Log in</h1>
+    <div class="form" style=" display: flex; flex-direction: column; align-content: space-between; width: 50%;">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <input type="submit" id="login" name="login" value="Log in">
+    </div>
+
+    <div id="result_msg">
+
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#login').on('click', function() {
+            $('#result_msg').html('');
+            var username1 = $('#username').val();
+            var password1 = $('#password').val();
+
+            var tokens;
+
+            var xhr = new XMLHttpRequest();
+            var body = 'username=' + encodeURIComponent(username1) + '&password=' + encodeURIComponent(password1);
+            xhr.open("POST", 'login', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (this.readyState != 4 && xhr.status != 200) {
+                    $('#result_msg').html('Wrong username or password');
+                    return;
+                }
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(this.responseText);
+                    tokens = JSON.parse(this.responseText);
+                    console.log("access_token: ", tokens.access_token);
+                    console.log("username: ", tokens.username);
+                    document.cookie="Authorization=Bearer " + tokens.access_token;
+                    document.cookie="username="+tokens.username;
+                    window.location.replace("/"); //TODO redirect to profile page right after login
+                }
+            };
+            xhr.send(body);
+        });
+    });
+</script>
+</body>
+</html>

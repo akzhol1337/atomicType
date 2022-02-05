@@ -69,4 +69,10 @@ public class RaceController {
         return "home";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+
 }
