@@ -63,7 +63,6 @@ public class RaceController {
         raceService.createRace(raceState);
     }
 
-
     @GetMapping("/")
     public String homePage(Model model){
         return "home";
@@ -74,5 +73,9 @@ public class RaceController {
         return "login";
     }
 
+    @GetMapping("/register")
+    public String register(){
+        return "register";
+    }
 
 }

@@ -7,7 +7,10 @@ import java.util.List;
 public interface UserServiceInterface {
     AUser saveUser(AUser AUser);
     AUser getUser(String username);
+    boolean hasUser(String username);
+    boolean hasEmail(String email);
     void addFriend(String username, String friendName);
+    AUser getUserByUsername(String username);
     List<AUser> getUsers();
 }
 

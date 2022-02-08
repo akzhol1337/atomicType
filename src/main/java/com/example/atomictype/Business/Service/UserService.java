@@ -25,6 +25,7 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
     @Override
     public AUser saveUser(AUser AUser) {
+
         log.info("Saving new user {} to a database", AUser.getEmail());
         AUser.setPassword(passwordEncoder.encode(AUser.getPassword()));
         return userRepository.save(AUser);
@@ -35,6 +36,23 @@ public class UserService implements UserServiceInterface, UserDetailsService {
         log.info("Getting user {}", username);
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public AUser getUserByUsername(String username) {
+        log.info("Fetching user {}", username);
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean hasEmail(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
+    @Override
+    public boolean hasUser(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
+
 
     @Override
     public void addFriend(String username, String friendName) {

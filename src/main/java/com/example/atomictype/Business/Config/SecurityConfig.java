@@ -55,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/**", "/loadUsers/**",
                 "/play/**", "/join/**", /*"/race/**",*/ "createRace/**", "/",
                 "/topic/**",
-                "/h2-console/**", "/console/**").permitAll();
+                "/h2-console/**", "/console/**",
+                "/save/user/**").permitAll();
+
 
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/css/**", "/js/**", "/png/**").permitAll();
 
@@ -64,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.authorizeRequests().anyRequest().authenticated(); //it should be like that
 
         http.authorizeRequests().antMatchers(
-                "/race/**", "/users"
+                /*"/race/**",*/ "/users"
         ).hasAuthority("user"); //TODO normalnuyu authenticated ne rabotaet s race
 
         http.addFilter(authenticationFilter);
