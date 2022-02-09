@@ -8,12 +8,10 @@
 <section class="registerBox" style="position: center; display: flex; flex-direction: column; align-items: center;">
     <h1>Register Page</h1>
     <div class="form">
-        <form id="regForm" method="post" style=" display: flex; flex-direction: column; align-content: space-between; width: 100%;" >
-            <input type="text" id="username" name="username" placeholder="Username">
-            <input type="email" id="email" name="email" placeholder="Email">
-            <input type="password" id="password" name="password" placeholder="Password">
-            <input type="submit" id="register" name="register" value="Register">
-        </form>
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="email" id="email" name="email" placeholder="Email">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <input type="submit" id="register" name="register" value="Register">
     </div>
 
     <div id="result_msg">
@@ -24,24 +22,32 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
-        $('#regForm').on('submit', function() {
-            $('#result_msg').html('');
-            var formData = {
+        $('#register').on('click', function() {
+            $('#result_msg').html('hello');
+            /*var formData = {
                 username : $('#username').val(),
                 email : $('#email').val,
                 password : $('#password').val(),
-            };
+            };*/
+            let username = $('#username').val();
+            let email = $('#email').val();
+            let password = $('#password').val();
 
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "/user/save",
-                data: formData,
+                url: '/user/save',
+                data: /*formData*/ JSON.stringify({
+                    username : username,
+                    email : email,
+                    password : password }),
                 dataType: "json",
                 complete: [ function (e) {
                     console.log(e.responseText);
-                    console.log(formData.username)
-                    if (e.responseText === "User has been created") {
+                    console.log(username);
+                    console.log(e)
+                    if (e.responseText == "User has been created") {
+                        $('#result_msg').html('bro');
                         window.location.replace("/");
                     }
                     else if (e.responseText == "User with this username already exist") {

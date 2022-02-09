@@ -39,6 +39,15 @@ public class AUser {
     private Integer average_wpm_full;
     private Integer number_of_races;
 
+    @ManyToMany
+    private Collection<AUser> friends = new ArrayList<>();
+
+    @ManyToMany
+    private List<League> leagues;
+
+    @ManyToMany
+    private List<RaceResults> racesHistory;
+
     public AUser() {
     }
 
@@ -54,16 +63,6 @@ public class AUser {
         this.password = password;
         this.username = username;
     }
-
-    @ManyToMany
-    private Collection<AUser> friends = new ArrayList<>();
-
-    @ManyToMany
-    private List<League> leagues;
-
-    @ManyToMany
-    private List<RaceResults> racesHistory;
-
 
 }
 

@@ -51,12 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
         http.authorizeRequests().antMatchers(
-                "/login",
+                "/login", "/register",
                 "/api/**", "/loadUsers/**",
                 "/play/**", "/join/**", /*"/race/**",*/ "createRace/**", "/",
                 "/topic/**",
                 "/h2-console/**", "/console/**",
-                "/save/user/**").permitAll();
+                "/user/save").permitAll();
 
 
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/css/**", "/js/**", "/png/**").permitAll();
