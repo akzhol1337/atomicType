@@ -4,10 +4,14 @@ import com.example.atomictype.Business.Entity.Quote;
 import com.example.atomictype.Business.Entity.UserState;
 import com.example.atomictype.Business.Service.QuoteService;
 import com.example.atomictype.Business.Service.RaceStateService;
+import com.example.atomictype.Business.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
@@ -15,11 +19,13 @@ public class RestController {
 
     RaceStateService raceService;
     QuoteService quoteService;
+    UserService userService;
 
     @Autowired
-    public RestController(RaceStateService raceService, QuoteService quoteService) {
+    public RestController(RaceStateService raceService, QuoteService quoteService, UserService userService) {
         this.raceService = raceService;
         this.quoteService = quoteService;
+        this.userService = userService;
     }
 
     @GetMapping("/loadUsers/{raceId}")
@@ -40,5 +46,11 @@ public class RestController {
     @GetMapping("/api/randomquoteid")
     public Long getRandomQuoteId(){
         return quoteService.getRandomQuoteId();
+    }
+
+    @PostMapping("/api/follow")
+    public void followUser(@RequestParam String username, Principal principal){
+        String loggedUsername = principal.getName();
+        userService.followUser(username, loggedUsername);
     }
 }

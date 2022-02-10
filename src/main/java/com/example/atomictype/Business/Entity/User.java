@@ -47,13 +47,16 @@ public class User {
     private Collection<Role> roles = new ArrayList<>();
 
     @ManyToMany
-    private Collection<User> friends = new ArrayList<>();
+    private Collection<User> followers = new ArrayList<>();
 
     @ManyToMany
-    private List<League> leagues;
+    private Collection<User> followings = new ArrayList<>();
 
     @ManyToMany
-    private List<RaceResults> racesHistory;
+    private List<League> leagues = new ArrayList<>();
+
+    @ManyToMany
+    private List<RaceResults> racesHistory = new ArrayList<>();
 
     public User() {
     }

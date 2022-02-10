@@ -70,12 +70,17 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 
     @Override
-    public void addFriend(String username, String friendName) {
-        log.info("Adding new friend {} to a user {}", friendName, username);
+    public void followUser(String username, String loggedUsername) {
+        log.info("{} following user {}", loggedUsername, username);
         User user = userRepo.findByUsername(username);
-        User friend = userRepo.findByUsername(friendName);
-        user.getFriends().add(friend);
-        friend.getFriends().add(user);
+        User loggedUser = userRepo.findByUsername(loggedUsername);
+
+        if(user.getFollowers().contains(loggedUser)){
+            return;
+        }
+
+        user.getFollowers().add(loggedUser);
+        loggedUser.getFollowings().add(user);
     }
 
     @Override

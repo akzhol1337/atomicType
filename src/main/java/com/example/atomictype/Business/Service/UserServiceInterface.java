@@ -12,7 +12,7 @@ public interface UserServiceInterface {
     User getUser(String username);
     boolean hasUser(String username);
     boolean hasEmail(String email);
-    void addFriend(String username, String friendName);
+    void followUser(String username, String loggedUsername);
     User getUserByUsername(String username);
     List<User> getUsers();
 }

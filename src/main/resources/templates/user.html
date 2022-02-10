@@ -2,7 +2,20 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+
     <title th:text="${username}"></title>
+
+
+    <script th:inline="javascript">
+        function edit(){
+
+        }
+
+        function follow(){
+            $.post("http://localhost:8080/api/follow?username=" + [[${username}]]);
+        }
+    </script>
 </head>
 <body>
     <p th:text="${username}"></p>
@@ -14,6 +27,23 @@
     <p th:text="${country}"></p>
     <p th:text="${speedRank}"></p>
     <p th:text="${experienceRank}"></p>
+
+    <div th:if="${myAccount}">
+        <button onclick="edit()">EDIT</button>
+    </div>
+    <div th:unless="${myAccount}">
+        <button onclick="follow()">FOLLOW</button>
+    </div>
+    <br>
+    <p th:text="${loggedUsername}"> Current user </p>
+
+    <ul th:each="follower : ${followers}">
+        <li th:text="${follower.username}"></li>
+    </ul>
+
+    <ul th:each="following : ${followings}">
+        <li th:text="${following.username}"></li>
+    </ul>
 
 </body>
 </html>

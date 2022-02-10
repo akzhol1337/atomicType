@@ -44,7 +44,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             }
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")){
                 try {
-                    System.out.println("haha");
                     String token = authorizationHeader.substring("Bearer".length());
                     Algorithm algorithm = Algorithm.HMAC256("Amiracle".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();

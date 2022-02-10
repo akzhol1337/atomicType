@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +45,7 @@ public class UserController {
     public String getUserpage(Model model, @PathVariable String username, Principal principal){
         User user = userService.getUser(username);
 
-        int account_type = user.getRoles().size();
+        int accountType = user.getRoles().size();
 
         // statistics
         Integer numberOfRaces = user.getNumber_of_races();
@@ -55,6 +58,21 @@ public class UserController {
         String profilePhoto = user.getProfile_photo();
         String experienceRank = user.getExperience_rank();
 
+        List<com.example.atomictype.Business.Entity.Internal.User> followers = new ArrayList<>();
+        List<com.example.atomictype.Business.Entity.Internal.User> followings = new ArrayList<>();
+
+        System.out.println(user.getFollowers().size());
+
+        for(User follower : user.getFollowers()){
+            followers.add(new com.example.atomictype.Business.Entity.Internal.User(follower.getUsername(), follower.getProfile_photo()));
+        }
+
+        for(User following : user.getFollowings()){
+            followings.add(new com.example.atomictype.Business.Entity.Internal.User(following.getUsername(), following.getProfile_photo()));
+        }
+
+        boolean myAccount = Objects.equals(principal.getName(), username);
+
         // sample data
         numberOfRaces = 5534;
         bestRace = 137;
@@ -66,6 +84,7 @@ public class UserController {
         speedRank = "Global Elite";
         experienceRank = "Legendary";
 
+        model.addAttribute("accountType", accountType);
         model.addAttribute("numberOfRaces", numberOfRaces);
         model.addAttribute("bestRace", bestRace);
         model.addAttribute("averageWpmFull", averageWpmFull);
@@ -75,8 +94,9 @@ public class UserController {
         model.addAttribute("country", country);
         model.addAttribute("speedRank", speedRank);
         model.addAttribute("experienceRank", experienceRank);
-        model.addAttribute("loggedUsername", principal.getName());
-
+        model.addAttribute("myAccount", myAccount);
+        model.addAttribute("followers", followers);
+        model.addAttribute("followings", followings);
         return "user";
     }
 
