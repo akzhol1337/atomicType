@@ -35,12 +35,13 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = null;//request.getHeader(AUTHORIZATION);
-            for(Cookie cook : request.getCookies()){
-                if(cook.getName().equals("Authorization")){
-                    authorizationHeader = cook.getValue();
+            if(request.getCookies() != null) {
+                for (Cookie cook : request.getCookies()) {
+                    if (cook.getName().equals("Authorization")) {
+                        authorizationHeader = cook.getValue();
+                    }
                 }
             }
-            System.out.println(authorizationHeader);
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")){
                 try {
                     System.out.println("haha");
@@ -51,6 +52,12 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     String username = decodedJWT.getSubject();
 
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                    
+                    for(String role : roles){
+                        System.out.println(role);
+                    }
+
+
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));

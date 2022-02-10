@@ -24,8 +24,15 @@ public class AtomicTypeApplication {
     @Bean
     CommandLineRunner run(UserService userService) {
         return args -> {
-            //userService.saveRole(new Role(null, "ROLE_USER"));
-            //userService.addRoleToUser("akzhol", "ROLE_USER");
+            /*
+            userService.saveRole(new Role(null, "USER"));
+            userService.saveRole(new Role(null, "ADMIN"));
+            userService.saveRole(new Role(null, "PREMIUM"));
+
+            userService.addRoleToUser("akzhol", "USER");
+            userService.addRoleToUser("akzhol", "ADMIN");
+            userService.addRoleToUser("akzhol", "PREMIUM");
+            */
         };
     }
 }
