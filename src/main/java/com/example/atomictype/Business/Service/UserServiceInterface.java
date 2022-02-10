@@ -1,16 +1,19 @@
 package com.example.atomictype.Business.Service;
 
-import com.example.atomictype.Business.Entity.AUser;
+import com.example.atomictype.Business.Entity.Role;
+import com.example.atomictype.Business.Entity.User;
 
 import java.util.List;
 
 public interface UserServiceInterface {
-    AUser saveUser(AUser AUser);
-    AUser getUser(String username);
+    User saveUser(User user);
+    Role saveRole(Role role);
+    void addRoleToUser(String username, String roleName);
+    User getUser(String username);
     boolean hasUser(String username);
     boolean hasEmail(String email);
     void addFriend(String username, String friendName);
-    AUser getUserByUsername(String username);
-    List<AUser> getUsers();
+    User getUserByUsername(String username);
+    List<User> getUsers();
 }
 

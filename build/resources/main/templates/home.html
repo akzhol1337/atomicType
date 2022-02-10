@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+
+    <style>
+        button{
+            margin-top: 10vh;
+            border: none;
+            color: white;
+            background-color: #ffa801;
+            width: 200px;
+            padding: 10px;
+            font-size: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button:hover{
+            border: 2px solid black;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        function createGame(){
+            $(document).ready(function(){
+                $.get( "http://localhost:8080/api/randomquoteid", function( quoteId ) {
+                    let raceId = Math.floor(Math.random() * 1000)
+                    $.post("http://localhost:8080/createRace/" + raceId + "/" + quoteId).done(function(){
+                        window.location.replace("http://localhost:8080/race/" + raceId)
+                    })
+                })
+            })
+        }
+    </script>
+
+</head>
+<body>
+    <div class="btns"></div>
+        <button type="button" onclick="createGame()">Create a game</button>
+
+        <button type="button" onclick="">Join a game</button>
+    </div>
+</body>
+</html>

@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(
                 /*"/race/**",*/ "/users"
-        ).hasAuthority("user"); //TODO normalnuyu authenticated ne rabotaet s race
+        ).hasAuthority("user");
 
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

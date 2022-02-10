@@ -1,36 +1,15 @@
 package com.example.atomictype.Presentation;
 
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.atomictype.Business.Entity.AUser;
+import com.example.atomictype.Business.Entity.User;
 import com.example.atomictype.Business.Service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/user/save")
-    public ResponseEntity saveUser(@RequestBody AUser user){
+    public ResponseEntity saveUser(@RequestBody User user){
         if (userService.hasUser(user.getUsername())){
             return ResponseEntity.badRequest().body("User with this username already exist");
         }
@@ -50,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<AUser>> getUsers(){
+    public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok().body(userService.getUsers());
     }
 

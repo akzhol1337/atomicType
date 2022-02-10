@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,10 +34,17 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         if(request.getServletPath().equals("/login")){
             filterChain.doFilter(request, response);
         } else {
-            String authorizationHeader = request.getHeader(AUTHORIZATION);
-            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String authorizationHeader = null;//request.getHeader(AUTHORIZATION);
+            for(Cookie cook : request.getCookies()){
+                if(cook.getName().equals("Authorization")){
+                    authorizationHeader = cook.getValue();
+                }
+            }
+            System.out.println(authorizationHeader);
+            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")){
                 try {
-                    String token = authorizationHeader.substring("Bearer ".length());
+                    System.out.println("haha");
+                    String token = authorizationHeader.substring("Bearer".length());
                     Algorithm algorithm = Algorithm.HMAC256("Amiracle".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
