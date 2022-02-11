@@ -6,21 +6,16 @@
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script>
         function createLeague(){
-            let league = {
-                name: $('name').value,
-                description: $('description').value,
-                password: $('password').value,
-                slots: $('slots').value,
-                min_average_wpm: $('min_average_wpm').value,
-                full_or_last10: $('full_or_last10').value,
-                country: $('country').value
-            }
-
-            console.log(league.name, $('name').value)
-
-            $.post("http://localhost:8080/createLeague", JSON.stringify(league)).then(
-               //window.location.replace("http://localhost:8080/league/" + league.name)
-            )
+            $.post("http://localhost:8080/createLeague", {
+                name: $('#name').val(),
+                description: $('#description').val(),
+                password: $('#password').val(),
+                slots: $('#slots').val(),
+                min_average_wpm: $('#min_average_wpm').val(),
+                full_or_last10: $('#full_or_last10').val(),
+                country: $('#country').val()
+            })
+            window.location.replace("http://localhost:8080/league/" + $('#name').val())
         }
     </script>
 
