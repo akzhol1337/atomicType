@@ -21,6 +21,9 @@
         var finishedPlayers = 0
         var totalCharacters = 0
         var correctCharacters = 0
+
+        var authenticated = false
+
         //var quoteDisplayElement = document.getElementById('text')
         //var quoteInputElement = document.getElementById('textinput')
 
@@ -29,6 +32,13 @@
         renderNewQuote()
 
         $(document).ready(function(){
+
+            if ([[${userId}]] != null){
+                authenticated = true
+                document.getElementById('id').remove();
+                document.getElementById('name').remove();
+            }
+
             document.getElementById('textinput').addEventListener('input', () => {
                 const arrayQuote = document.getElementById('text').querySelectorAll('span')
                 const arrayValue = document.getElementById('textinput').value.split('')
@@ -243,12 +253,18 @@
             document.getElementById('textinput').value = null;
         }
 
-        function joinGame(){
+        function joinGame() {
             document.getElementById('joingame').remove()
-            name = document.getElementById('name').value
-            userId = document.getElementById('id').value
-            document.getElementById('id').remove();
-            document.getElementById('name').remove();
+
+            if (authenticated) {
+                name = [[${username}]]
+                userId = [[${userId}]]
+            } else {
+                name = document.getElementById('name').value
+                userId = document.getElementById('id').value
+                document.getElementById('id').remove();
+                document.getElementById('name').remove();
+            }
             const userState = JSON.stringify({"method": "JOIN", "userId": parseInt(userId), "raceId": raceId, "name": name, 'speed': null, 'progress': 0})
             stompClient.send(join , {}, userState);
         }

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class RaceController {
@@ -49,7 +50,16 @@ public class RaceController {
     }
 
     @GetMapping("/race/{raceId}")
-    public String joinRace(Model model, @PathVariable Long raceId){
+    public String joinRace(Model model, @PathVariable Long raceId, @RequestParam Optional<Long> id, @RequestParam Optional<String> username){
+        System.out.println(id + " " + username);
+
+        if(id.isPresent() && username.isPresent()){
+            model.addAttribute("username", username.get());
+            model.addAttribute("userId", id.get());
+        } else {
+            model.addAttribute("username", null);
+            model.addAttribute("userId", null);
+        }
         model.addAttribute("raceLink", "http://localhost:8080/race/" + raceId);
         model.addAttribute("quoteId", raceService.getQuoteId(raceId));
         return "game";

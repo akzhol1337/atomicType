@@ -1,11 +1,13 @@
 package com.example.atomictype.Presentation;
 
 import com.example.atomictype.Business.Entity.Quote;
+import com.example.atomictype.Business.Entity.User;
 import com.example.atomictype.Business.Entity.UserState;
 import com.example.atomictype.Business.Service.QuoteService;
 import com.example.atomictype.Business.Service.RaceStateService;
 import com.example.atomictype.Business.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +54,16 @@ public class RestController {
     public void followUser(@RequestParam String username, Principal principal){
         String loggedUsername = principal.getName();
         userService.followUser(username, loggedUsername);
+    }
+
+    @GetMapping("/api/getCredentials")
+    public ResponseEntity<User> getCredentials(Principal principal){
+        if(principal == null){
+            return ResponseEntity.ok(null);
+        } else {
+            String loggedUsername = principal.getName();
+            User user = userService.getUser(loggedUsername);
+            return ResponseEntity.ok(user);
+        }
     }
 }

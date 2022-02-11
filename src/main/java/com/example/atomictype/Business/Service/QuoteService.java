@@ -11,7 +11,7 @@ import java.util.Random;
 @Service
 public class QuoteService {
     QuoteRepository repo;
-    int numberOfQuotesInDatabase = 11;
+    int numberOfQuotesInDatabase = 4;
     Random random = new Random();
 
     @Autowired

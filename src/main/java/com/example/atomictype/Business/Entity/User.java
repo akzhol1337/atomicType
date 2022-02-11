@@ -1,5 +1,6 @@
 package com.example.atomictype.Business.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,11 @@ public class User {
     @Column(unique = true /*,nullable = false*/)
     private String username;
 
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
     private String profile_photo;
     private String account_type;
     private String car_photo;
@@ -43,18 +49,27 @@ public class User {
     private Integer average_wpm_full;
     private Integer number_of_races;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
+
+    @JsonIgnore
     @ManyToMany
     private Collection<User> followers = new ArrayList<>();
 
+
+    @JsonIgnore
     @ManyToMany
     private Collection<User> followings = new ArrayList<>();
 
+
+    @JsonIgnore
     @ManyToMany
     private List<League> leagues = new ArrayList<>();
 
+
+    @JsonIgnore
     @ManyToMany
     private List<RaceResults> racesHistory = new ArrayList<>();
 
