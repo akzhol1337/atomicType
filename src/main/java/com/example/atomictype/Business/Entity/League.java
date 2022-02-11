@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -39,8 +41,26 @@ public class League {
     private Boolean privateLeague;
 
     @ManyToMany
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     @ManyToMany
-    private List<User> admins;
+    private List<User> admins = new ArrayList<>();
+
+    public boolean isUser(String username){
+        for(User user : users){
+            if(Objects.equals(user.getUsername(), username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAdmin(String username){
+        for(User user : admins){
+            if(Objects.equals(user.getUsername(), username)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

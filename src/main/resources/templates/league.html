@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script th:inline="javascript">
+        function join(){
+            $.post("http://localhost:8080/joinleague/" + [[${leagueName}]])
+        }
+    </script>
 </head>
 <body>
     <h1 th:text="${leagueName}"></h1>
+
+    <th:block th:switch="${accountType}">
+        <div th:case="'2'">
+            <div class="admin">admin</div>
+        </div>
+        <div th:case="'1'">
+            <div class="member">member</div>
+        </div>
+        <div th:case="'0'">
+            <button id="join" onclick="join()">Join</button>
+        </div>
+        <div th:case="'-1'">
+            <div class="unauthenticated">unauthenticated</div>
+        </div>
+    </th:block>
+
 </body>
 </html>

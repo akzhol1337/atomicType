@@ -14,8 +14,9 @@
                 min_average_wpm: $('#min_average_wpm').val(),
                 full_or_last10: $('#full_or_last10').val(),
                 country: $('#country').val()
+            }).done( function(){
+                window.location.replace("http://localhost:8080/league/" + $('#name').val())
             })
-            window.location.replace("http://localhost:8080/league/" + $('#name').val())
         }
     </script>
 

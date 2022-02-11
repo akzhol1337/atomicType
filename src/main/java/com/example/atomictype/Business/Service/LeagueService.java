@@ -21,4 +21,8 @@ public class LeagueService {
     public boolean existsByName(String name){
         return leagueRepo.existsLeagueByName(name);
     }
+
+    public League findByName(String name){
+        return leagueRepo.findByName(name);
+    }
 }

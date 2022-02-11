@@ -3,6 +3,7 @@ package com.example.atomictype.Presentation;
 
 import com.example.atomictype.Business.Entity.League;
 import com.example.atomictype.Business.Entity.User;
+import com.example.atomictype.Business.Service.LeagueService;
 import com.example.atomictype.Business.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final LeagueService leagueService;
 
     @PostMapping("/user/save")
     public ResponseEntity saveUser(@RequestBody User user){
@@ -144,8 +146,22 @@ public class UserController {
 
 
     @GetMapping("/league/{leagueName}")
-    public String getLeague(@PathVariable String leagueName, Model model){
+    public String getLeague(@PathVariable String leagueName, Model model, Principal principal){
+
+        System.out.println(leagueName);
+        League league = leagueService.findByName(leagueName);
+        String loggedUsername = principal.getName();
+
+        int accountType = 0;
+
+        if(league.isUser(loggedUsername)){
+            accountType = 1;
+        } else if(league.isAdmin(loggedUsername)){
+            accountType = 2;
+        }
+
         model.addAttribute("leagueName", leagueName);
+        model.addAttribute("accountType", accountType);
         return "league";
     }
 
