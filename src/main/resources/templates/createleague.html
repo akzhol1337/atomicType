@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Create a league</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script>
+        function createLeague(){
+            let league = {
+                name: $('name').value,
+                description: $('description').value,
+                password: $('password').value,
+                slots: $('slots').value,
+                min_average_wpm: $('min_average_wpm').value,
+                full_or_last10: $('full_or_last10').value,
+                country: $('country').value
+            }
+
+            $.post("http://localhost:8080/createLeague", JSON.stringify(league)).then(
+               //window.location.replace("http://localhost:8080/league/" + league.name)
+            )
+        }
+    </script>
+
+</head>
+<body>
+    <input type="text" id="name">
+    <input type="text" id="description">
+
+    <input type="text" id="password">
+    <input type="number" id="slots">
+    <input type="number" id="min_average_wpm">
+    <input type="checkbox" id="full_or_last10">
+    <input type="text" id="country">
+
+    <input type="submit" onclick="createLeague()" value="create">
+
+</body>
+</html>

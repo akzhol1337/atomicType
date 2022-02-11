@@ -1,6 +1,7 @@
 package com.example.atomictype.Presentation;
 
 
+import com.example.atomictype.Business.Entity.League;
 import com.example.atomictype.Business.Entity.User;
 import com.example.atomictype.Business.Service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +61,7 @@ public class UserController {
 
         List<com.example.atomictype.Business.Entity.Internal.User> followers = new ArrayList<>();
         List<com.example.atomictype.Business.Entity.Internal.User> followings = new ArrayList<>();
-
-        System.out.println(user.getFollowers().size());
+        List<String> leagues = new ArrayList<>();
 
         for(User follower : user.getFollowers()){
             followers.add(new com.example.atomictype.Business.Entity.Internal.User(follower.getUsername(), follower.getProfile_photo()));
@@ -69,6 +69,10 @@ public class UserController {
 
         for(User following : user.getFollowings()){
             followings.add(new com.example.atomictype.Business.Entity.Internal.User(following.getUsername(), following.getProfile_photo()));
+        }
+
+        for(League league : user.getLeagues()){
+            leagues.add(league.getName());
         }
 
         boolean myAccount = Objects.equals(principal.getName(), username);
@@ -97,6 +101,7 @@ public class UserController {
         model.addAttribute("myAccount", myAccount);
         model.addAttribute("followers", followers);
         model.addAttribute("followings", followings);
+        model.addAttribute("leagues",  leagues);
         return "user";
     }
 
@@ -136,6 +141,18 @@ public class UserController {
             throw new RuntimeException("Refresh token is messing");
         }
     }*/
+
+
+    @GetMapping("/league/{leagueName}")
+    public String getLeague(@PathVariable String leagueName, Model model){
+        model.addAttribute("leagueName", leagueName);
+        return "league";
+    }
+
+    @GetMapping("/createLeague")
+    public String createLeague(){
+        return "createleague";
+    }
 
 
 }

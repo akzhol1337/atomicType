@@ -37,13 +37,34 @@
     <br>
     <p th:text="${loggedUsername}"> Current user </p>
 
+    <span>followers:</span>
     <ul th:each="follower : ${followers}">
         <li th:text="${follower.username}"></li>
     </ul>
 
+    <br>
+    <span>following:</span>
     <ul th:each="following : ${followings}">
         <li th:text="${following.username}"></li>
     </ul>
+    <br>
+    <span>leagues:</span>
+    <ul th:each="league : ${leagues}">
+        <li th:text="${league}"></li>
+    </ul>
+    <br>
+
+    <th:block th:switch="${accountType}">
+        <div th:case="'3'">
+            <div class="admin">ADMIN</div>
+        </div>
+        <div th:case="'2'">
+            <div class="premium">PREMIUM</div>
+        </div>
+        <div th:case="'1'">
+            <div class="user">USER</div>
+        </div>
+    </th:block>
 
 </body>
 </html>

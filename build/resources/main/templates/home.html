@@ -34,6 +34,12 @@
                 })
             })
         }
+
+        function createLeague(){
+            $(document).ready(function(){
+                window.location.replace("http://localhost:8080/createLeague")
+            })
+        }
     </script>
 
 </head>
@@ -41,7 +47,7 @@
     <div class="btns"></div>
         <button type="button" onclick="createGame()">Create a game</button>
 
-        <button type="button" onclick="">Join a game</button>
+        <button type="button" onclick="createLeague()">create league</button>
     </div>
 </body>
 </html>
