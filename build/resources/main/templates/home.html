@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <title>Hello WebSocket</title>
     <script src="/webjars/jquery/jquery.min.js"></script>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
         button{
             margin-top: 10vh;
             border: none;
@@ -21,6 +27,8 @@
         button:hover{
             border: 2px solid black;
         }
+
+
     </style>
 
     <script th:inline="javascript">
@@ -33,21 +41,15 @@
                         let raceId = Math.floor(Math.random() * 1000)
                         $.post("http://localhost:8080/createRace/" + raceId + "/" + quoteId).done(function(){
                             console.log(user.id, user.username)
-                            window.location.replace("http://localhost:8080/race/" + raceId + "?id=" + user.id + "&username=" + user.username);
-
+                            if(user.id === undefined){
+                                window.location.replace("http://localhost:8080/race/" + raceId);
+                            } else {
+                                window.location.replace("http://localhost:8080/race/" + raceId + "?id=" + user.id + "&username=" + user.username);
+                            }
                         })
                     })
                     }
                 )
-                /*
-                $.get( "http://localhost:8080/api/randomquoteid", function( quoteId ) {
-                    let raceId = Math.floor(Math.random() * 1000)
-                    $.post("http://localhost:8080/createRace/" + raceId + "/" + quoteId).done(function(){
-                        window.location.replace("http://localhost:8080/race/" + raceId)
-                    })
-                })
-
-                 */
 
 
             })
@@ -62,6 +64,8 @@
 
 </head>
 <body>
+
+
     <div class="btns"></div>
         <button type="button" onclick="createGame()">Create a game</button>
 

@@ -51,8 +51,6 @@ public class RaceController {
 
     @GetMapping("/race/{raceId}")
     public String joinRace(Model model, @PathVariable Long raceId, @RequestParam Optional<Long> id, @RequestParam Optional<String> username){
-        System.out.println(id + " " + username);
-
         if(id.isPresent() && username.isPresent()){
             model.addAttribute("username", username.get());
             model.addAttribute("userId", id.get());

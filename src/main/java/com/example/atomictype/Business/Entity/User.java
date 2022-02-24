@@ -48,6 +48,7 @@ public class User {
     private Integer best_wpm;
     private Integer average_wpm_full;
     private Integer number_of_races;
+    private Integer experience_points;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

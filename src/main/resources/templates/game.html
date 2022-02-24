@@ -84,6 +84,13 @@
             startTime = new Date()
             const calculateSpeed = setInterval(() => {
                 if(finished){
+                    console.log('haha')
+                    $.post('http://localhost:8080/api/updateStatistics', {
+                        quoteId: quoteId,
+                        wpm: speed,
+                        place: finishedPlayers,
+                        accuracy: 98.6
+                    })
                     clearInterval(calculateSpeed)
                 } else {
                     progress = correctCharacters / totalCharacters * 100

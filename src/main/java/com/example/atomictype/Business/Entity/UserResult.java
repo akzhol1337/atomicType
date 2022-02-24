@@ -15,8 +15,8 @@ public class UserResult {
     @Id
     private Long id;
     private Long userId;
-    private Long userName;
+    private String username;
     private Integer speed;
-    private Integer accuracy;
+    private Float accuracy;
     private Integer place;
 }

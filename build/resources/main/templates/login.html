@@ -49,6 +49,7 @@
                     document.cookie="Refresh_token=" + tokens.refresh_token
                     document.cookie="haha=haha"
                     //document.cookie="username="+tokens.username;
+                    window.location.replace("http://localhost:8080")
                 }
             };
             xhr.send(body);

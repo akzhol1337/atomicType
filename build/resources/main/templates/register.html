@@ -11,6 +11,7 @@
         <input type="text" id="username" name="username" placeholder="Username">
         <input type="email" id="email" name="email" placeholder="Email">
         <input type="password" id="password" name="password" placeholder="Password">
+        <input type="text" id="country" name="country" placeholder="Country">
         <input type="submit" id="register" name="register" value="Register">
     </div>
 
@@ -32,15 +33,19 @@
             let username = $('#username').val();
             let email = $('#email').val();
             let password = $('#password').val();
+            let country = $('#country').val();
 
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
                 url: '/user/save',
-                data: /*formData*/ JSON.stringify({
+                data: JSON.stringify({
                     username : username,
                     email : email,
-                    password : password }),
+                    password : password,
+                    country: country
+                    }
+                ),
                 dataType: "json",
                 complete: [ function (e) {
                     console.log(e.responseText);

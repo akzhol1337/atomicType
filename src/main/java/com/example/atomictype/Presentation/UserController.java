@@ -35,6 +35,16 @@ public class UserController {
         if (userService.hasEmail(user.getEmail())){
             return ResponseEntity.badRequest().body("User with this email already exist");
         }
+        user.setAverage_wpm_last10(0);
+        user.setAverage_wpm_full(0);
+        user.setBest_wpm(0);
+        user.setExperience_rank("Newbie");
+        user.setAccount_type("User");
+
+        user.setNumber_of_races(0);
+        user.setExperience_points(0);
+        user.setCar_photo("car_photo_link");
+
         userService.saveUser(user);
         return new ResponseEntity("User has been created", HttpStatus.CREATED);
     }
@@ -76,10 +86,10 @@ public class UserController {
         for(League league : user.getLeagues()){
             leagues.add(league.getName());
         }
-
-        boolean myAccount = Objects.equals(principal.getName(), username);
+        boolean myAccount = principal != null && Objects.equals(principal.getName(), username);
 
         // sample data
+        /*
         numberOfRaces = 5534;
         bestRace = 137;
         averageWpmFull = 86;
@@ -89,6 +99,7 @@ public class UserController {
         country = "UK";
         speedRank = "Global Elite";
         experienceRank = "Legendary";
+        */
 
         model.addAttribute("accountType", accountType);
         model.addAttribute("numberOfRaces", numberOfRaces);
@@ -147,8 +158,6 @@ public class UserController {
 
     @GetMapping("/league/{leagueName}")
     public String getLeague(@PathVariable String leagueName, Model model, Principal principal){
-
-        System.out.println(leagueName);
         League league = leagueService.findByName(leagueName);
         String loggedUsername = principal.getName();
 

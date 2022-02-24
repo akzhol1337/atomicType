@@ -52,9 +52,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     
-                    for(String role : roles){
-                        System.out.println(role);
-                    }
+
 
 
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
