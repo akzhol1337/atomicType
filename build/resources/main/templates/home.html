@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hello WebSocket</title>
     <script src="/webjars/jquery/jquery.min.js"></script>
 
+    <link th:href="@{/css/fragments.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,27 +13,89 @@
         }
 
 
-        button{
-            margin-top: 10vh;
-            border: none;
-            color: white;
-            background-color: #ffa801;
-            width: 200px;
-            padding: 10px;
-            font-size: 20px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+
 
         button:hover{
             border: 2px solid black;
+        }
+
+        body {
+            display: flex;
+        }
+
+        .btns {
+            display: flex;
+            margin: auto;
+        }
+
+        .btns > * {
+            margin: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            width: 25vw;
+            height: 15vh;
+            justify-content: center;
+            color: white;
+            background-image: linear-gradient(to right top, #d35400, #de7100, #e78d00, #eda800, #f1c40f);
+            border-radius: 30px;
+            font-size: 35px;
+        }
+
+        .button-container > img {
+            width: 6vw;
+            height: auto;
+        }
+
+        .button-container > * {
+            align-self: center;
+        }
+
+        .button-container > span {
+            max-width: 50%;
+        }
+
+
+
+        .league {
+            background: linear-gradient(45deg, rgb(41, 128, 185), rgb(46, 204, 113));
+        }
+
+        .random {
+            background: linear-gradient(45deg, rgb(9, 132, 227), rgb(142, 68, 173));
+        }
+
+        .auth, .profile {
+            display: flex;
+            position: absolute;
+            top: 5%;
+            left: 87%;
+            font-size: 20px;
+            color: #ffa801;
+            cursor:pointer;
+        }
+
+        .profile {
+            left: 92%;
+            font-size: 25px;
+        }
+
+
+
+        .register {
+            margin-left: 1.25vw;
         }
 
 
     </style>
 
     <script th:inline="javascript">
+
+        $(document).ready(function() {
+            $('#home-button').addClass('active-bar-button')
+        })
+
         function createGame(){
             $(document).ready(function(){
 
@@ -40,12 +104,8 @@
                     $.get( "http://localhost:8080/api/randomquoteid", function( quoteId ) {
                         let raceId = Math.floor(Math.random() * 1000)
                         $.post("http://localhost:8080/createRace/" + raceId + "/" + quoteId).done(function(){
-                            console.log(user.id, user.username)
-                            if(user.id === undefined){
-                                window.location.replace("http://localhost:8080/race/" + raceId);
-                            } else {
-                                window.location.replace("http://localhost:8080/race/" + raceId + "?id=" + user.id + "&username=" + user.username);
-                            }
+                            window.location.replace("http://localhost:8080/race/" + raceId);
+
                         })
                     })
                     }
@@ -53,6 +113,11 @@
 
 
             })
+        }
+
+        function myProfile(){
+            var username = [[${username}]];
+            window.location.replace('http://localhost:8080/user/' + username);
         }
 
         function createLeague(){
@@ -65,11 +130,42 @@
 </head>
 <body>
 
+    <div th:replace="fragments :: nav-bar"></div>
 
-    <div class="btns"></div>
-        <button type="button" onclick="createGame()">Create a game</button>
+    <div class="btns">
+        <div class="button-container random" onclick="createLeague()">
+            <span>Random race</span>
+            <img th:src="@{/img/trophybutton.png}" alt="trophy_img">
+        </div>
+        <div class="button-container" onclick="createGame()">
+            <span>Race with friends</span>
+            <img th:src="@{/img/wheel.png}" alt="wheel_img">
+        </div>
+        <div class="button-container league" onclick="createLeague()">
+            <span>Create league</span>
+            <img th:src="@{/img/track.png}" alt="trophy_img">
+        </div>
 
-        <button type="button" onclick="createLeague()">create league</button>
     </div>
+
+    <th:block th:switch="${authenticated}">
+        <div th:case="true">
+            <div class="profile" onclick="myProfile()">
+                <span th:text="${username}"></span>
+            </div>
+        </div>
+        <div th:case="false">
+            <div class="auth">
+                <div class="login" onclick="window.location.replace('http://localhost:8080/login')">
+                    <span>Login</span>
+                </div>
+
+                <div class="register" onclick="window.location.replace('http://localhost:8080/register')">
+                    <span>Register</span>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
 </body>
 </html>

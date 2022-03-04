@@ -96,6 +96,10 @@ public class RestController {
         sum += wpm;
         int last10_avg_wpm = sum / 10;
 
+        if(place == 1){
+            user.setRaces_won(user.getRaces_won() + 1);
+        }
+
         user.setNumber_of_races(user.getNumber_of_races() + 1);
         user.setExperience_points(user.getExperience_points() + quote.getContent().length()/10);
         user.setAverage_wpm_last10(last10_avg_wpm);

@@ -4,6 +4,68 @@
     <meta charset="UTF-8">
     <script src="/webjars/jquery/jquery.min.js"></script>
 
+    <link th:href="@{/css/fragments.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <style>
+
+        body {
+            display: flex;
+        }
+        .user-stats-container {
+            background-color: #1E1E1E;
+            width: 10%;
+            height: 100%;
+        }
+
+        .user-stats-container > * {
+            text-align: center;
+            color: white;
+        }
+
+        .username {
+            color: white;
+            font-size: 40px;
+        }
+
+        button {
+            background-color: #ffa801;
+            border-radius: 30px;
+            color: white;
+            padding: 6px 12px;
+            font-size: 15px;
+            border: none;
+            margin-top: 10vh;
+        }
+
+        .tag {
+            font-weight: 400;
+        }
+
+        .stats-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10vh;
+        }
+
+        .stats-info > * {
+            padding: 15px;
+        }
+
+        .stats-content {
+            font-size: 25px;
+        }
+
+        .user-info {
+            margin-left: 7vw;
+        }
+
+        .username {
+            font-size: 45px;
+        }
+    </style>
+
     <title th:text="${username}"></title>
 
 
@@ -18,53 +80,64 @@
     </script>
 </head>
 <body>
-    <p th:text="${username}"></p>
-    <p th:text="${numberOfRaces}"></p>
-    <p th:text="${bestRace}"></p>
-    <p th:text="${averageWpmLast10}"></p>
-    <p th:text="${averageWpmFull}"></p>
-    <p th:text="${carPhoto}"></p>
-    <p th:text="${country}"></p>
-    <p th:text="${speedRank}"></p>
-    <p th:text="${experienceRank}"></p>
 
-    <div th:if="${myAccount}">
-        <button onclick="edit()">EDIT</button>
+    <div th:replace="fragments :: nav-bar"></div>
+    <div class="user-stats-container">
+        <div class="btns">
+
+        </div>
+        <div class="main-info">
+            <!--
+            <div th:if="${myAccount}">
+                <button onclick="edit()">EDIT</button>
+            </div>
+            -->
+            <div th:unless="${myAccount}">
+                <button onclick="follow()">FOLLOW</button>
+            </div>
+
+
+        </div>
+
+        <div class="stats-info">
+            <div class="wpm">
+                <span class="tag">avg speed</span>
+                <p th:text="${averageWpmLast10}" class="stats-content"></p>
+            </div>
+            <div class="races">
+                <span class="tag">races</span>
+                <p th:text="${numberOfRaces}" class="stats-content"></p>
+            </div>
+
+            <br>
+            <div class="bestrace">
+                <span class="tag">best race</span>
+                <p th:text="${bestRace}" class="stats-content"></p>
+            </div>
+            <div class="lastrace">
+                <span class="tag">last race</span>
+                <p class="stats-content">109</p>
+            </div>
+            <br>
+            <div class="raceswon">
+                <span class="tag">races won</span>
+                <p th:text="${racesWon}" class="stats-content"></p>
+            </div>
+            <div class="totalwpm">
+                <span class="tag">full speed</span>
+                <p th:text="${averageWpmFull}" class="stats-content"></p>
+            </div>
+        </div>
     </div>
-    <div th:unless="${myAccount}">
-        <button onclick="follow()">FOLLOW</button>
+    <!--
+    <div class="user-info">
+        <img src="" alt="">
+        <span class="username">
+            <p th:text="${username}"></p>
+        </span>
+
     </div>
-    <br>
-    <p th:text="${loggedUsername}"> Current user </p>
-
-    <span>followers:</span>
-    <ul th:each="follower : ${followers}">
-        <li th:text="${follower.username}"></li>
-    </ul>
-
-    <br>
-    <span>following:</span>
-    <ul th:each="following : ${followings}">
-        <li th:text="${following.username}"></li>
-    </ul>
-    <br>
-    <span>leagues:</span>
-    <ul th:each="league : ${leagues}">
-        <li th:text="${league}"></li>
-    </ul>
-    <br>
-
-    <th:block th:switch="${accountType}">
-        <div th:case="'3'">
-            <div class="admin">ADMIN</div>
-        </div>
-        <div th:case="'2'">
-            <div class="premium">PREMIUM</div>
-        </div>
-        <div th:case="'1'">
-            <div class="user">USER</div>
-        </div>
-    </th:block>
+    -->
 
 </body>
 </html>

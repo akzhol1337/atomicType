@@ -49,20 +49,21 @@ public class User {
     private Integer average_wpm_full;
     private Integer number_of_races;
     private Integer experience_points;
+    private Integer races_won;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
 
     @JsonIgnore
     @ManyToMany
-    private Collection<User> followers = new ArrayList<>();
+    private List<User> followers = new ArrayList<>();
 
 
     @JsonIgnore
     @ManyToMany
-    private Collection<User> followings = new ArrayList<>();
+    private List<User> followings = new ArrayList<>();
 
 
     @JsonIgnore

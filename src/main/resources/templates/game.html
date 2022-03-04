@@ -17,6 +17,8 @@
         var startTime
         var name
         var userId
+
+        var autoId = 1
         var finished = false
         var finishedPlayers = 0
         var totalCharacters = 0
@@ -32,10 +34,10 @@
         renderNewQuote()
 
         $(document).ready(function(){
+            $('#race-button').addClass('active-bar-button')
 
             if ([[${userId}]] != null){
                 authenticated = true
-                document.getElementById('id').remove();
                 document.getElementById('name').remove();
             }
 
@@ -84,7 +86,6 @@
             startTime = new Date()
             const calculateSpeed = setInterval(() => {
                 if(finished){
-                    console.log('haha')
                     $.post('http://localhost:8080/api/updateStatistics', {
                         quoteId: quoteId,
                         wpm: speed,
@@ -266,10 +267,12 @@
             if (authenticated) {
                 name = [[${username}]]
                 userId = [[${userId}]]
+
+                console.log(name + " " + userId)
             } else {
                 name = document.getElementById('name').value
-                userId = document.getElementById('id').value
-                document.getElementById('id').remove();
+                userId = Math.floor(Math.random() * 10000000)
+                console.log("33434" + name)
                 document.getElementById('name').remove();
             }
             const userState = JSON.stringify({"method": "JOIN", "userId": parseInt(userId), "raceId": raceId, "name": name, 'speed': null, 'progress': 0})
@@ -286,38 +289,43 @@
 
     </script>
     <link rel="stylesheet" th:href="@{/css/game.css}">
-
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/fragments.css}">
 </head>
 <body>
 
-    <div class="connect">
-        <p>Race link: </p>
-        <p th:text="${raceLink}"></p>
 
-    <input type="text" id="id">
-    <input type="text" id="name">
+    <div th:replace="fragments :: nav-bar" class="nav"></div>
 
-    <button id='joingame' onclick="joinGame()">
-        Join game
-    </button>
+    <div class="notnav">
 
-    </div>
+        <div class="connect">
 
-    <div id="speed">
+        <input type="text" id="name">
 
-    </div>
-
-    <div class="race-status" id="raceStatus">
-        <span id="countdown" class="countdown-waiting">Waiting for players...</span>
-    </div>
-
-    <div class="container" id="container">
-        <div id="text">
+        <button id='joingame' onclick="joinGame()">
+            Join game
+        </button>
 
         </div>
 
-        <textarea id="textinput" cols="30" rows="10" disabled autofocus></textarea>
-    </div>
+        <div id="speed">
 
+        </div>
+
+        <div class="race-status" id="raceStatus">
+            <span id="countdown" class="countdown-waiting">Waiting for players...</span>
+        </div>
+
+        <div class="container" id="container">
+
+            <div id="text">
+            </div>
+
+            <textarea id="textinput" cols="30" rows="10" disabled autofocus></textarea>
+        </div>
+
+
+    </div>
 </body>
 </html>

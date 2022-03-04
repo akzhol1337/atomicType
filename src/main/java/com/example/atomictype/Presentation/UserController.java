@@ -40,6 +40,7 @@ public class UserController {
         user.setBest_wpm(0);
         user.setExperience_rank("Newbie");
         user.setAccount_type("User");
+        user.setRaces_won(0);
 
         user.setNumber_of_races(0);
         user.setExperience_points(0);
@@ -70,6 +71,7 @@ public class UserController {
         String speedRank = user.getSpeed_rank();
         String profilePhoto = user.getProfile_photo();
         String experienceRank = user.getExperience_rank();
+        Integer racesWon = user.getRaces_won();
 
         List<com.example.atomictype.Business.Entity.Internal.User> followers = new ArrayList<>();
         List<com.example.atomictype.Business.Entity.Internal.User> followings = new ArrayList<>();
@@ -115,6 +117,7 @@ public class UserController {
         model.addAttribute("followers", followers);
         model.addAttribute("followings", followings);
         model.addAttribute("leagues",  leagues);
+        model.addAttribute("racesWon", racesWon);
         return "user";
     }
 
@@ -159,13 +162,15 @@ public class UserController {
     @GetMapping("/league/{leagueName}")
     public String getLeague(@PathVariable String leagueName, Model model, Principal principal){
         League league = leagueService.findByName(leagueName);
-        String loggedUsername = principal.getName();
+        String loggedUsername = null;
+        if(principal != null) {
+            loggedUsername = principal.getName();
+        }
 
         int accountType = 0;
-
-        if(league.isUser(loggedUsername)){
+        if(loggedUsername != null && league.isUser(loggedUsername)){
             accountType = 1;
-        } else if(league.isAdmin(loggedUsername)){
+        } else if(loggedUsername != null && league.isAdmin(loggedUsername)){
             accountType = 2;
         }
 

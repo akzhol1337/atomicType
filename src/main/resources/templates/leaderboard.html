@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Hello WebSocket</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+
+    <link th:href="@{/css/fragments.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#trophy-button').addClass('active-bar-button')
+        })
+    </script>
+
+    <style>
+        body {
+            display: flex;
+        }
+
+        .top5-container {
+            margin-top: 5%;
+            display: flex;
+            height: 80%;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        .top5-container > * {
+            color: white;
+            width: 30vw;
+            height: 13vh;
+            border-radius: 30px;
+            background-color: #484848;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        .gold {
+            background: linear-gradient(45deg, rgb(243, 156, 18), rgb(241, 196, 15));
+        }
+
+        .silver {
+            background: linear-gradient(45deg, rgb(189, 195, 199), rgb(143, 143, 143));
+        }
+
+        .bronze {
+            background: linear-gradient(45deg, rgb(205, 127, 50), rgb(241, 166, 91));
+        }
+
+        .top-wpm {
+            display: flex;
+            flex-direction: column;
+            margin-left: 5%;
+            margin-top: 2%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 70px;
+        }
+
+        .place {
+            font-size: 40px;
+            align-self: center;
+        }
+
+        .avatar {
+            height: 9vh;
+            align-self: center;
+        }
+
+        .nickname {
+            font-size: 35px;
+            align-self: center;
+        }
+
+        .speed {
+            font-size: 35px;
+            font-weight: 400;
+            align-self: center;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <div th:replace="fragments :: nav-bar"></div>
+
+    <div class="top-wpm">
+        <h1>Leaderboard</h1>
+
+
+            <div th:each="user : ${top5}" class="top5-container">
+                <div class="gold">
+
+
+                    <span class="place" th:text="${user.place}">
+                    </span>
+
+                    <span class="nickname" th:text="${user.username}">
+                    </span>
+
+                    <span class="speed" th:text="${user.speed}"></span>
+
+                </div>
+            </div>
+            <!--
+            <div id="top1" class="gold">
+                <span class="place">
+                    #1
+                </span>
+
+
+                <span class="nickname">H0bbit</span>
+
+
+                <span class="speed">190</span>
+            </div>
+            <div id="top2" class="silver">
+                <span class="place">
+                    #2
+                </span>
+
+                <img th:src="@{img/man.png}" alt="" class="avatar">
+
+                <span class="nickname">nafany</span>
+
+
+                <span class="speed">166</span>
+
+            </div>
+            <div id="top3" class="bronze">
+                <span class="place">
+                    #3
+                </span>
+
+                <img th:src="@{img/man.png}" alt="" class="avatar">
+
+
+                <span class="nickname">sh1ro</span>
+
+
+                <span class="speed">154</span>
+            </div>
+            <div id="top4">
+                <span class="place">
+                    #4
+                </span>
+
+                <img th:src="@{img/man.png}" alt="" class="avatar">
+
+                <span class="nickname">Ax1Le</span>
+
+                <span class="speed">130</span>
+            </div>
+            <div id="top5">
+                <span class="place">
+                    #5
+                </span>
+
+                <img th:src="@{img/man.png}" alt="" class="avatar">
+
+                <span class="nickname">interz</span>
+
+                <span class="speed">128</span>
+            </div>
+            -->
+    </div>
+
+</body>
+</html>

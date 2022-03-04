@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link th:href="@{/css/fragments.css}" rel="stylesheet">
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+
+
+    <div th:fragment="nav-bar" class="bar">
+        <div class="imgs">
+            <img th:src="@{/img/logo.png}" alt="logo" class="logoimg">
+            <div class="catalog">
+                <div class="catalog-button" id="home-button" onclick="window.location.replace('http://localhost:8080/')">
+                    <img th:src="@{/img/home.png}" alt="home" class="homeimg">
+                </div>
+                <div class="catalog-button" id="race-button">
+                    <img th:src="@{/img/finish.png}" alt="race" class="finishimg">
+                </div>
+                <div class="catalog-button" id="trophy-button" onclick="window.location.replace('http://localhost:8080/leaderboard')">
+                    <img th:src="@{/img/trophy.png}" alt="trophy" class="trophyimg">
+                </div>
+                <div class="catalog-button" id="settings-button">
+                    <img th:src="@{/img/settings.png}" alt="settings" class="settingsimg">
+                </div>
+            </div>
+        </div>
+    </div>
+</head>
+<body>
+
+</body>
+</html>
